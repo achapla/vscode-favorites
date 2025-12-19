@@ -7,24 +7,11 @@ import { getCurrentResources } from '../helper/util'
 export function moveToTop(favoritesProvider: FavoritesProvider) {
   return vscode.commands.registerCommand('favorites.moveToTop', async function (value: Resource) {
     const config = vscode.workspace.getConfiguration('favorites')
-    const currentGroup = configMgr.get('currentGroup') as string
 
     const items = await getCurrentResources()
-    const filteredArray: {
-      filePath: string
-      group: string
-      previousIndex: number
-    }[] = []
+    const currentIndex = items.findIndex((i) => i.filePath === value.value)
 
-    items.forEach((value, index) => {
-      if (value.group == currentGroup) {
-        filteredArray.push({ filePath: value.filePath, group: value.group, previousIndex: index })
-      }
-    })
-
-    const currentIndex = filteredArray.find((i) => i.filePath === value.value).previousIndex
-
-    if (currentIndex === filteredArray[0].previousIndex) {
+    if (currentIndex <= 0) {
       return
     }
 

@@ -21,16 +21,11 @@ export function deleteFavorite() {
     if (uri.scheme === 'file') {
       const fsPath = (<Resource>value).value || (<vscode.Uri>value).fsPath
 
-      const currentGroup = configMgr.get('currentGroup')
-
       configMgr
         .save(
           'resources',
           previousResources.filter((r) => {
-            if ((r.filePath !== fsPath && pathResolve(r.filePath) !== fsPath )|| r.group !== currentGroup) {
-              return true
-            }
-            return false
+            return r.filePath !== fsPath && pathResolve(r.filePath) !== fsPath
           })
         )
         .catch(console.warn)
@@ -40,10 +35,7 @@ export function deleteFavorite() {
         .save(
           'resources',
           previousResources.filter((r) => {
-            if (r.filePath !== uri.toString()) {
-              return true
-            }
-            return false
+            return r.filePath !== uri.toString()
           })
         )
         .catch(console.warn)

@@ -3,5 +3,3 @@ export enum FileStat {
   DIRECTORY,
   NEITHER,
 }
-
-export const DEFAULT_GROUP = 'Default'

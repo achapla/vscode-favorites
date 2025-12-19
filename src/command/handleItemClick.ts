@@ -4,22 +4,14 @@ import { Resource, FavoritesProvider } from '../provider/FavoritesProvider'
 
 // Unified click handler for both files and folders in the favorites tree
 // - Files: Single-click opens preview, double-click opens permanent
-// - Folders: Single-click expands/collapses, double-click reveals in Explorer sidebar
+// - Folders: Both single and double click reveal in Explorer sidebar
 export function handleItemClick(favoritesProvider: FavoritesProvider) {
   return vscode.commands.registerCommand('favorites.handleItemClick', async function (resource: Resource) {
-    const isFolder = resource.collapsibleState !== vscode.TreeItemCollapsibleState.None
+    const isFolder = resource.contextValue.includes('.dir')
 
     if (isFolder) {
-      // Folder click handling
-      const doubleClicked = wasFolderDoubleClick(resource, favoritesProvider)
-
-      if (doubleClicked) {
-        // Double-click: reveal in sidebar
-        await vscode.commands.executeCommand('revealInExplorer', resource.uri)
-      } else {
-        // Single-click: toggle expand/collapse
-        await vscode.commands.executeCommand('list.toggleExpand')
-      }
+      // Folder click handling: always reveal in sidebar
+      await vscode.commands.executeCommand('revealInExplorer', resource.uri)
     } else {
       // File click handling (existing logic from open.ts)
       let usePreview = <boolean>vscode.workspace.getConfiguration('workbench.editor').get('enablePreview')
@@ -31,22 +23,6 @@ export function handleItemClick(favoritesProvider: FavoritesProvider) {
       await vscode.commands.executeCommand('vscode.open', resource.uri, { preview: usePreview })
     }
   })
-}
-
-// Track folder double-clicks separately from file double-clicks
-function wasFolderDoubleClick(resource: Resource, favoritesProvider: FavoritesProvider): boolean {
-  let result = false
-  if (favoritesProvider.lastFolderClick) {
-    const isTheSameUri = (favoritesProvider.lastFolderClick.uri.toString() === resource.uri.toString())
-    const dateDiff = <number>(<any>new Date() - <any>favoritesProvider.lastFolderClick.date)
-    result = isTheSameUri && dateDiff < 500
-  }
-
-  favoritesProvider.lastFolderClick = {
-    uri: resource.uri,
-    date: new Date()
-  }
-  return result
 }
 
 // Return true if previously called with the same file within the past 0.5 seconds

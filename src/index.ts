@@ -6,7 +6,6 @@ import configMgr from './helper/configMgr'
 
 import {
   addToFavorites,
-  addNewGroup,
   deleteFavorite,
   renameFavorite,
   moveUp,
@@ -14,13 +13,9 @@ import {
   moveToTop,
   moveToBottom,
   refresh,
-  toggleSort,
-  changeGroup,
   revealInOS_mac,
   revealInOS_windows,
   revealInOS_other,
-  revealInSideBar,
-  openToSide,
   handleItemClick,
 } from './command'
 
@@ -40,18 +35,13 @@ export function activate(context: vscode.ExtensionContext) {
   const favoritesProvider = new FavoritesProvider()
 
   vscode.window.createTreeView('favorites', { treeDataProvider: favoritesProvider, showCollapseAll: true })
-  const tree = vscode.window.createTreeView('favorites-full-view', {
+  vscode.window.createTreeView('favorites-full-view', {
     treeDataProvider: favoritesProvider,
     showCollapseAll: true,
   })
 
-  const currentGroup = configMgr.get('currentGroup')
-  tree.message = `Current Group: ${currentGroup}`
-
   vscode.workspace.onDidChangeConfiguration(
     () => {
-      const currentGroup = configMgr.get('currentGroup')
-      tree.message = `Current Group: ${currentGroup}`
       favoritesProvider.refresh()
     },
     this,
@@ -64,17 +54,12 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(revealInOS_mac())
   context.subscriptions.push(revealInOS_windows())
   context.subscriptions.push(revealInOS_other())
-  context.subscriptions.push(revealInSideBar())
-  context.subscriptions.push(openToSide())
   context.subscriptions.push(handleItemClick(favoritesProvider))
   context.subscriptions.push(moveUp(favoritesProvider))
   context.subscriptions.push(moveDown(favoritesProvider))
   context.subscriptions.push(moveToTop(favoritesProvider))
   context.subscriptions.push(moveToBottom(favoritesProvider))
   context.subscriptions.push(refresh(favoritesProvider))
-  context.subscriptions.push(toggleSort(favoritesProvider))
-  context.subscriptions.push(changeGroup(favoritesProvider))
-  context.subscriptions.push(addNewGroup(favoritesProvider))
 }
 
 // this method is called when your extension is deactivated

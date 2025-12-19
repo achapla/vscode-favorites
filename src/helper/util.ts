@@ -1,7 +1,6 @@
 import * as vscode from 'vscode'
 import * as path from 'path'
 import { ItemInSettingsJson } from '../model'
-import { DEFAULT_GROUP } from '../enum'
 import configMgr from './configMgr'
 import type { GitExtension, Repository, API } from '../git'
 
@@ -28,7 +27,7 @@ export function getCurrentResources(): Array<ItemInSettingsJson> {
   const resources = (configMgr.get('resources') as Array<ItemInSettingsJson | string>) || []
   const newResources: Array<ItemInSettingsJson> = resources.map((item) => {
     if (typeof item == 'string') {
-      return { filePath: item, group: DEFAULT_GROUP } as ItemInSettingsJson
+      return { filePath: item } as ItemInSettingsJson
     } else {
       return item
     }

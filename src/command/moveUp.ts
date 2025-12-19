@@ -7,31 +7,15 @@ import { getCurrentResources, replaceArrayElements } from '../helper/util'
 export function moveUp(favoritesProvider: FavoritesProvider) {
   return vscode.commands.registerCommand('favorites.moveUp', async function(value: Resource) {
     const config = vscode.workspace.getConfiguration('favorites')
-    const currentGroup = configMgr.get('currentGroup') as string
 
     const items = await getCurrentResources()
-    const filteredArray: {
-      filePath: string
-      group: string
-      previousIndex: number
-    }[] = []
+    const currentIndex = items.findIndex((i) => i.filePath === value.value)
 
-    items.forEach((value, index) => {
-      if (value.group == currentGroup) {
-        filteredArray.push({ filePath: value.filePath, group: value.group, previousIndex: index })
-      }
-    })
-
-    const currentIndex = filteredArray.find((i) => i.filePath === value.value).previousIndex
-    const targetIndexOfFiltered = filteredArray.findIndex((i) => i.filePath === value.value)
-
-    if (currentIndex === filteredArray[0].previousIndex) {
+    if (currentIndex <= 0) {
       return
-    }else{
-      var previousIndex = filteredArray[targetIndexOfFiltered-1].previousIndex
     }
 
-    let resources = replaceArrayElements(items, currentIndex, previousIndex)
+    let resources = replaceArrayElements(items, currentIndex, currentIndex - 1)
 
     config.update('sortOrder', 'MANUAL', false)
     configMgr.save('resources', resources).catch(console.warn)

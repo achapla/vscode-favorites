@@ -1,7 +1,6 @@
 import * as vscode from 'vscode'
 import { isMultiRoots, getSingleRootPath, getCurrentResources } from '../helper/util'
 import configMgr from '../helper/configMgr'
-import { DEFAULT_GROUP } from '../enum'
 import { ItemInSettingsJson } from '../model'
 
 export function addToFavorites() {
@@ -25,9 +24,7 @@ export function addToFavorites() {
         ? fileName
         : fileName.substr(getSingleRootPath().length + 1)
 
-    const currentGroup = (configMgr.get('currentGroup') as string) || DEFAULT_GROUP
-
-    if (previousResources.some((r) => r.filePath === newResource && r.group === currentGroup)) {
+    if (previousResources.some((r) => r.filePath === newResource)) {
       return
     }
 
@@ -35,13 +32,9 @@ export function addToFavorites() {
       .save(
         'resources',
         previousResources.concat([
-          { filePath: newResource, group: currentGroup },
+          { filePath: newResource },
         ] as Array<ItemInSettingsJson>)
       )
       .catch(console.warn)
-
-    if (configMgr.get('groups') == undefined || configMgr.get('groups').length == 0) {
-      configMgr.save('groups', [DEFAULT_GROUP]).catch(console.warn)
-    }
   })
 }
