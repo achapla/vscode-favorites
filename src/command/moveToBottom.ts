@@ -6,8 +6,6 @@ import { getCurrentResources } from '../helper/util'
 
 export function moveToBottom(favoritesProvider: FavoritesProvider) {
   return vscode.commands.registerCommand('favorites.moveToBottom', async function (value: Resource) {
-    const config = vscode.workspace.getConfiguration('favorites')
-
     const items = await getCurrentResources()
     const currentIndex = items.findIndex((i) => i.filePath === value.value)
 
@@ -18,7 +16,6 @@ export function moveToBottom(favoritesProvider: FavoritesProvider) {
     items.push(items[currentIndex])
     items.splice(currentIndex, 1)
 
-    config.update('sortOrder', 'MANUAL', false)
     configMgr.save('resources', items).catch(console.warn)
   })
 }

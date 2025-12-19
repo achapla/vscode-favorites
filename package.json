@@ -50,16 +50,6 @@
           "default": [],
           "description": "Resources marked as favorites"
         },
-        "favorites.sortOrder": {
-          "type": "string",
-          "enum": [
-            "ASC",
-            "DESC",
-            "MANUAL"
-          ],
-          "default": "ASC",
-          "description": "Specify an order for all favorites"
-        },
         "favorites.saveSeparated": {
           "type": "boolean",
           "default": false,
