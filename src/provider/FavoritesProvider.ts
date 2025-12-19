@@ -14,6 +14,7 @@ export class FavoritesProvider implements vscode.TreeDataProvider<Resource> {
 
   // Use for detecting doubleclick
   public lastOpened: { uri: vscode.Uri; date: Date }
+  public lastFolderClick: { uri: vscode.Uri; date: Date }
 
   refresh(): void {
     this._onDidChangeTreeData.fire()
@@ -207,7 +208,7 @@ export class FavoritesProvider implements vscode.TreeDataProvider<Resource> {
           uri = vscode.Uri.parse(`file:///${pathResolve(i.filePath)}`.replace(/\\/g, '/'))
         }
         if (i.stat === FileStat.DIRECTORY) {
-          return new Resource(
+          const resource = new Resource(
             displayName,
             vscode.TreeItemCollapsibleState.Collapsed,
             i.filePath,
@@ -215,23 +216,31 @@ export class FavoritesProvider implements vscode.TreeDataProvider<Resource> {
             undefined,
             uri
           )
+          resource.command = {
+            command: 'favorites.handleItemClick',
+            title: '',
+            arguments: [resource]
+          }
+          return resource
         }
 
-        return new Resource(
+        const resource = new Resource(
           displayName,
           vscode.TreeItemCollapsibleState.None,
           i.filePath,
           contextValue,
-          {
-            command: 'favorites.open',
-            title: '',
-            arguments: [uri],
-          },
+          undefined,
           uri
         )
+        resource.command = {
+          command: 'favorites.handleItemClick',
+          title: '',
+          arguments: [resource]
+        }
+        return resource
       } else {
         if (i.stat === FileStat.DIRECTORY) {
-          return new Resource(
+          const resource = new Resource(
             displayName,
             vscode.TreeItemCollapsibleState.Collapsed,
             i.filePath,
@@ -239,19 +248,27 @@ export class FavoritesProvider implements vscode.TreeDataProvider<Resource> {
             undefined,
             i.uri
           )
+          resource.command = {
+            command: 'favorites.handleItemClick',
+            title: '',
+            arguments: [resource]
+          }
+          return resource
         }
-        return new Resource(
+        const resource = new Resource(
           displayName,
           vscode.TreeItemCollapsibleState.None,
           i.filePath,
           'uri.' + contextValue,
-          {
-            command: 'favorites.open',
-            title: '',
-            arguments: [i.uri],
-          },
+          undefined,
           i.uri
         )
+        resource.command = {
+          command: 'favorites.handleItemClick',
+          title: '',
+          arguments: [resource]
+        }
+        return resource
       }
     })
   }

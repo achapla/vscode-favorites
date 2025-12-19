@@ -21,7 +21,7 @@ import {
   revealInOS_other,
   revealInSideBar,
   openToSide,
-  open,
+  handleItemClick,
 } from './command'
 
 // this method is called when your extension is activated
@@ -66,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(revealInOS_other())
   context.subscriptions.push(revealInSideBar())
   context.subscriptions.push(openToSide())
-  context.subscriptions.push(open(favoritesProvider))
+  context.subscriptions.push(handleItemClick(favoritesProvider))
   context.subscriptions.push(moveUp(favoritesProvider))
   context.subscriptions.push(moveDown(favoritesProvider))
   context.subscriptions.push(moveToTop(favoritesProvider))
