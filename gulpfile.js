@@ -46,11 +46,11 @@ const doCompile = function () {
 const buildTask = gulp.series(cleanTask, doCompile)
 
 const vscePublishTask = function () {
-  return vsce.publish()
+  return vsce.publish({ packageManager: 'pnpm' })
 }
 
 const vscePackageTask = function () {
-  return vsce.createVSIX()
+  return vsce.createVSIX({ packageManager: 'pnpm' })
 }
 
 gulp.task('default', buildTask)

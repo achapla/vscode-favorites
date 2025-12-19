@@ -1,9 +1,18 @@
 {
   "name": "vscode-favorites",
-  "displayName": "favorites",
-  "description": "Mark resources (files or folders, local and remote) as favorites, so they can be easily accessed.",
-  "version": "1.11.0",
-  "publisher": "howardzuo",
+  "displayName": "Favorites",
+  "description": "Enhanced favorites manager - Mark and organize files and folders (local and remote) for quick access. Forked from howardzuo/vscode-favorites.",
+  "version": "0.1.0",
+  "publisher": "achapla",
+  "author": {
+    "name": "achapla"
+  },
+  "contributors": [
+    {
+      "name": "Howard Zuo (original author)",
+      "email": "leftstick@qq.com"
+    }
+  ],
   "engines": {
     "vscode": "^1.68.0"
   },
@@ -19,16 +28,18 @@
   ],
   "icon": "images/favorites.png",
   "bugs": {
-    "url": "https://github.com/leftstick/vscode-favorites/issues",
-    "email": "leftstick@qq.com"
+    "url": "https://github.com/achapla/vscode-favorites/issues"
   },
-  "homepage": "https://github.com/leftstick/vscode-favorites/blob/master/README.md",
+  "homepage": "https://github.com/achapla/vscode-favorites/blob/master/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/leftstick/vscode-favorites.git"
+    "url": "https://github.com/achapla/vscode-favorites.git"
   },
   "license": "GPL-3.0",
   "main": "./out/index.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
     "configuration": {
       "type": "object",
@@ -319,19 +330,19 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^18.11.17",
+    "@types/node": "^20.17.10",
     "@types/vscode": "^1.68.0",
-    "@vscode/vsce": "^2.16.0",
-    "del": "^7.0.0",
+    "@vscode/vsce": "^3.7.1",
+    "del": "^7.1.0",
     "event-stream": "^4.0.1",
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "run-sequence": "^2.2.1",
-    "typescript": "^4.9.4"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
-    "nconf": "^0.12.0"
+    "nconf": "^0.13.0"
   }
 }

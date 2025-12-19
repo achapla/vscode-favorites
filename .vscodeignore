@@ -8,3 +8,12 @@ src/**
 tsconfig.json
 vsc-extension-quickstart.md
 favorites-localization/**
+gulpfile.js
+pnpm-lock.yaml
+yarn.lock
+.npmrc
+.editorconfig
+**/*.md
+!readme.md
+!changelog.md
+!LICENSE.txt
