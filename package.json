@@ -27,11 +27,6 @@
     "type": "git",
     "url": "https://github.com/leftstick/vscode-favorites.git"
   },
-  "activationEvents": [
-    "onCommand:favorites.addToFavorites",
-    "onView:favorites",
-    "onView:favorites-full-view"
-  ],
   "license": "GPL-3.0",
   "main": "./out/index.js",
   "contributes": {
@@ -167,6 +162,11 @@
           "group": "operation"
         },
         {
+          "command": "favorites.renameFavorite",
+          "when": "view in ext:allFavoriteViews && viewItem =~ /resource(\\.dir)?$/",
+          "group": "operation"
+        },
+        {
           "command": "favorites.moveToTop",
           "when": "view in ext:allFavoriteViews && viewItem =~ /resource(\\.dir)?$/",
           "group": "sort@1"
@@ -231,6 +231,10 @@
         {
           "command": "favorites.moveToBottom",
           "when": "false"
+        },
+        {
+          "command": "favorites.renameFavorite",
+          "when": "false"
         }
       ]
     },
@@ -271,6 +275,10 @@
       {
         "command": "favorites.deleteFavorite",
         "title": "%command.favorites.deletefavorite%"
+      },
+      {
+        "command": "favorites.renameFavorite",
+        "title": "%command.favorites.renamefavorite%"
       },
       {
         "command": "favorites.moveUp",

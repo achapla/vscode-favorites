@@ -6,9 +6,11 @@ export interface Item {
     stat: FileStat;
     group:string;
     uri?: Uri;
+    name?: string;
 }
 
 export interface ItemInSettingsJson {
     filePath:string;
     group:string;
+    name?: string;
 }
